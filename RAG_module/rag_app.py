@@ -1,0 +1,25 @@
+import chromadb
+import streamlit as st
+from ollama import chat
+from sentence_transformers import SentenceTransformer
+
+st.set_page_config(page_tittle="Teachnova concierege",page_icon=".",layout="wide")
+
+@st.cache_resource
+def load_resource():
+    model = sentenceTransformer('all-MiniLM-L6-V2')
+    client = chromadb.PersistentClient(path="chroma_db")
+    collection = client.get_or_create_collection("fest_docs")
+    return model,collection
+
+model,collection = load_resources()
+st.tittle("Nova,the Technova conceirge")
+st.caption("I only know the fest document. Ask me anythink about Technova!")
+
+with st.sidebar:
+    st.header("knowledge meter")
+    st.metric("Total chunks in memory",collaection.count())
+    st.caption("Last searched query")
+    st.write(st.session_state.last_query)
+    
+    
